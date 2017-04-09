@@ -1,5 +1,5 @@
 (ns pl.fermich.invest-calendar.full
-  (:require [pl.fermich.invest-calendar.parser :as p]))
+  (:require [pl.fermich.invest-calendar.events :as e]))
 
 (defn -main [& args]
-  (p/fetch-events-starting-from 2010 01 01))
+  (e/fetch-events-starting-from 2010 01 01))

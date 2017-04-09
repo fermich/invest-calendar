@@ -1,14 +1,12 @@
-(ns pl.fermich.invest-calendar.parser
+(ns pl.fermich.invest-calendar.events
   (:require [clj-http.client :as client]
             [cheshire.core :as cheshire]
             [propertea.core :as props]
             [net.cgrand.enlive-html :as html]
             [clojure.string :as str]
             [clojure.java.jdbc :as j]
-            [pl.fermich.invest-calendar.db :as db]
-            [clj-time.periodic :as p]
-            [clj-time.core :as t]
-            [clj-time.format :as tf]))
+            [pl.fermich.invest-calendar.time :as t]
+            [pl.fermich.invest-calendar.db :as db]))
 
 (def conf (props/read-properties "resources/service.properties"))
 
@@ -64,12 +62,7 @@
              (println)
              (Thread/sleep 1000))))
 
-(defn- calculate-dates [y m d]
-  (let [format (tf/formatter "yyyy-MM-dd")
-        dates (p/periodic-seq (t/date-time y m d) (t/now) (t/hours 24))]
-    (map #(tf/unparse format %) dates)))
-
 (defn fetch-events-starting-from [y m d]
-  (some->> (calculate-dates y m d)
+  (some->> (t/calculate-dates y m d)
            (map #(fetch-events %))
            (vec)))
