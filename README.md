@@ -4,8 +4,10 @@ A Clojure library to fetch investment data.
 
 ## Usage
 
-  - lein with-profile diff run
-  - lein with-profile full run
+  - lein run quotes all
+  - lein run quotes diff
+  - lein run events all
+  - lein run events diff
 
 ## License
 

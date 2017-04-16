@@ -10,8 +10,5 @@
                  [org.clojure/java.jdbc "0.6.1"]
                  [org.clojure/data.csv "0.1.3"]]
   :resource-paths ["resources"]
-
-  :profiles {:full {:main pl.fermich.invest-calendar.full}
-             :diff {:main pl.fermich.invest-calendar.diff}
-             :quotes {:main pl.fermich.invest-calendar.quotes}}
+  :main pl.fermich.invest-calendar.main
   )

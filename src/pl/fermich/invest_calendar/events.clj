@@ -51,18 +51,29 @@
      :revision (some-> cells (nth 7) (cell-content) (:attrs) (:title) (drop-whitespaces))
      }))
 
-(defn fetch-events [date]
+(defn- fetch-events [date]
   (let [resp (get-calendar-by-date date)
         body (cheshire/parse-string (resp :body))
         events (body (:events-field-name conf))]
     (some->> (parse-html events)
              (map parse-table-row)
-             (db/insert-events)
+             (db/insert-rows (:db-table conf))
              (cheshire/generate-string)
              (println)
              (Thread/sleep 1000))))
 
-(defn fetch-events-starting-from [y m d]
+(defn- fetch-events-starting-from [y m d]
   (some->> (t/calculate-dates y m d)
            (map #(fetch-events %))
            (vec)))
+
+(defn fetch-all-events [& args]
+  (fetch-events-starting-from 2010 01 01))
+
+(defn fetch-diff-events [& args]
+  (let [last-event-date (db/select-last-event-date)
+        date-splitted (str/split last-event-date #"-")
+        [y m d] (map #(Integer/parseInt %) date-splitted)]
+    (println "Last event: " last-event-date)
+    (db/delete-events-by-date last-event-date)
+    (fetch-events-starting-from y m d)))
