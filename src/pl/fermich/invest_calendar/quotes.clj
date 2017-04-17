@@ -7,13 +7,13 @@
 
 (def conf (props/read-properties "resources/service.properties"))
 
-(defn- mark-columns [rows]
+(defn mark-columns [rows]
   (let [header [:ticker :per :dtyymmdd :dthhmmss :open :high :low :close :vol]]
     (some->> rows
              (map #(interleave header %))
              (map #(apply array-map %)))))
 
-(defn- fetch-quotes-by-date [day pair]
+(defn- fetch-raw-quotes-by-date [day pair]
   (let [options {
                  :body (str "backUrl=%24backUrl&data=" day "&nazwa=" pair "&format=mst&time_period=mins&send=on")
                  :headers {
@@ -28,14 +28,18 @@
         ]
     (Thread/sleep 1000)
     (some->> (client/post (:fx-url conf) options)
-            (:headers)
-            (:location)
-            (client/get)
-            (:body)
-            (csv/read-csv)
-            (mark-columns)
-            (db/insert-rows (:db-quotes-table conf))
-            )))
+             (:headers)
+             (:location)
+             (client/get)
+             (:body)
+             (csv/read-csv)
+             )))
+
+(defn- fetch-quotes-by-date [day pair]
+  (some->> (fetch-raw-quotes-by-date day pair)
+           (mark-columns)
+           (db/insert-rows (:db-quotes-table conf))
+           ))
 
 (defn- fetch-quotes-starting-from [y m d]
   (some->> (t/calculate-dates y m d)
