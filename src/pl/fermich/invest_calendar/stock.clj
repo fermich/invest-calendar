@@ -6,8 +6,8 @@
 
 (def conf (props/read-properties "resources/service.properties"))
 
-(def data-conf [:format [:ticker :dtyymmdd :open :high :low :close :vol]
-                :table (:db-stock-table conf)])
+(def data-conf {:format [:ticker :dtyymmdd :open :high :low :close :vol]
+                :table (:db-stock-table conf)})
 
 (defn- fetch-quotes-starting-from [y m d]
   (some->> (t/calculate-plain-dates y m d)
