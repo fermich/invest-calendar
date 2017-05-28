@@ -1,17 +1,11 @@
 (ns pl.fermich.invest-calendar.quotes
   (:require [clj-http.client :as client]
             [propertea.core :as props]
-            [clojure.data.csv :as csv]
+            [pl.fermich.invest-calendar.csv :as csv]
             [pl.fermich.invest-calendar.db :as db]
             [pl.fermich.invest-calendar.time :as t]))
 
 (def conf (props/read-properties "resources/service.properties"))
-
-(defn mark-columns [rows]
-  (let [header [:ticker :per :dtyymmdd :dthhmmss :open :high :low :close :vol]]
-    (some->> rows
-             (map #(interleave header %))
-             (map #(apply array-map %)))))
 
 (defn- fetch-raw-quotes-by-date [day pair]
   (let [options {
@@ -32,12 +26,12 @@
              (:location)
              (client/get)
              (:body)
-             (csv/read-csv)
+             (csv/parse-data)
              )))
 
 (defn- fetch-quotes-by-date [day pair]
   (some->> (fetch-raw-quotes-by-date day pair)
-           (mark-columns)
+           (csv/mark-columns [:ticker :per :dtyymmdd :dthhmmss :open :high :low :close :vol])
            (db/insert-rows (:db-quotes-table conf))
            ))
 
