@@ -7,7 +7,7 @@
   (testing "should return dates day by day"
     (let [from (ct/date-time 2010 01 01)
           to (ct/date-time 2010 01 03)
-          ds (t/dates-sequence from to)]
+          ds (t/dates-sequence from to "yyyy-MM-dd")]
       (is (= ["2010-01-01" "2010-01-02"] ds))
       )))
 

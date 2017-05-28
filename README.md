@@ -8,6 +8,8 @@ A Clojure library to fetch investment data.
   - lein run fx diff
   - lein run events all
   - lein run events diff
+  - lein run option last-month-diff
+  - lein run option load-from-dir [dir]
 
 ## License
 

@@ -43,12 +43,8 @@
   (vec (fetch-quotes-starting-from 2010 01 01)))
 
 (defn fetch-diff-quotes []
-  (let [last-date (db/select-last-quotes-date)
-        yy (subs last-date 0 4)
-        mm (subs last-date 4 6)
-        dd (subs last-date 6 8)
-        date-splitted [yy mm dd]
-        [y m d] (map #(Integer/parseInt %) date-splitted)]
+  (let [last-date (db/select-last-fx-quotes-date)
+        [y m d] (t/split-date last-date)]
     (println "Last quotes: " last-date)
-    (db/delete-quotes-by-date last-date)
+    (db/delete-fx-quotes-by-date last-date)
     (vec (fetch-quotes-starting-from y m d))))
