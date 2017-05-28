@@ -1,3 +1,5 @@
+create table option_quotes (option varchar(20), dtyymmdd varchar(10), open Decimal(10,4), high Decimal(10,4), low Decimal(10,4), close Decimal(10,4), vol int, oi int, primary key (option, dtyymmdd));
+
 create table option_code(code varchar(1), type varchar(1), month tinyint);
 
 insert into option_code(code, type, month) values ('A', 'C', 1);
@@ -24,4 +26,3 @@ insert into option_code(code, type, month) values ('U', 'P', 9);
 insert into option_code(code, type, month) values ('V', 'P', 10);
 insert into option_code(code, type, month) values ('W', 'P', 11);
 insert into option_code(code, type, month) values ('X', 'P', 12);
-
