@@ -21,7 +21,7 @@
     day))
 
 (defn select-last-quotes-date []
-  (some->> (j/query db-conf ["SELECT dtyymmdd FROM quotes ORDER BY dtyymmdd DESC limit 1"])
+  (some->> (j/query db-conf ["SELECT dtyymmdd FROM fx_quotes ORDER BY dtyymmdd DESC limit 1"])
            (first)
            (:dtyymmdd)))
 
@@ -29,4 +29,4 @@
   (j/query db-conf [(str "DELETE FROM events WHERE timestamp LIKE '" date "%'")]))
 
 (defn delete-quotes-by-date [date]
-  (j/query db-conf [(str "DELETE FROM quotes WHERE dtyymmdd = '" date "'")]))
+  (j/query db-conf [(str "DELETE FROM fx_quotes WHERE dtyymmdd = '" date "'")]))

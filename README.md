@@ -4,8 +4,8 @@ A Clojure library to fetch investment data.
 
 ## Usage
 
-  - lein run quotes all
-  - lein run quotes diff
+  - lein run fx all
+  - lein run fx diff
   - lein run events all
   - lein run events diff
 

@@ -1,4 +1,4 @@
-(ns pl.fermich.invest-calendar.quotes
+(ns pl.fermich.invest-calendar.fx
   (:require [clj-http.client :as client]
             [propertea.core :as props]
             [pl.fermich.invest-calendar.csv :as csv]
@@ -32,7 +32,7 @@
 (defn- fetch-quotes-by-date [day pair]
   (some->> (fetch-raw-quotes-by-date day pair)
            (csv/mark-columns [:ticker :per :dtyymmdd :dthhmmss :open :high :low :close :vol])
-           (db/insert-rows (:db-quotes-table conf))
+           (db/insert-rows (:db-fx-table conf))
            ))
 
 (defn- fetch-quotes-starting-from [y m d]
