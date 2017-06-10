@@ -16,7 +16,7 @@
            (map #(q/load-daily-quotes data-conf %))
            ))
 
-(defn last-month-diff []
+(defn current-month-diff []
   (vec (load-quotes-starting-from 2017 05 26)))
 
 

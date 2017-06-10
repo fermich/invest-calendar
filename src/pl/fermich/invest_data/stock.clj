@@ -13,8 +13,8 @@
   (some->> (t/calculate-plain-dates y m d)
            (map #(q/load-daily-quotes data-conf %))))
 
-(defn last-month-diff []
-  (vec (load-quotes-starting-from 2017 05 01)))
+(defn current-month-diff []
+  (vec (load-quotes-starting-from 2017 06 01)))
 
 
 (defn load-from-dir [dir]
