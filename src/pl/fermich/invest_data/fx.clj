@@ -1,9 +1,9 @@
-(ns pl.fermich.invest-calendar.fx
+(ns pl.fermich.invest-data.fx
   (:require [clj-http.client :as client]
             [propertea.core :as props]
-            [pl.fermich.invest-calendar.csv :as csv]
-            [pl.fermich.invest-calendar.db :as db]
-            [pl.fermich.invest-calendar.time :as t]))
+            [pl.fermich.invest-data.csv :as csv]
+            [pl.fermich.invest-data.db :as db]
+            [pl.fermich.invest-data.time :as t]))
 
 (def conf (props/read-properties "resources/service.properties"))
 
@@ -29,22 +29,22 @@
              (csv/parse-data)
              )))
 
-(defn- fetch-quotes-by-date [day pair]
+(defn- load-quotes-by-date [day pair]
   (some->> (fetch-raw-quotes-by-date day pair)
            (csv/mark-columns [:ticker :per :dtyymmdd :dthhmmss :open :high :low :close :vol])
            (db/insert-rows (:db-fx-table conf))
            ))
 
-(defn- fetch-quotes-starting-from [y m d]
+(defn- load-quotes-starting-from [y m d]
   (some->> (t/calculate-dates y m d)
-           (map #(fetch-quotes-by-date % "USDJPY"))))
+           (map #(load-quotes-by-date % "USDJPY"))))
 
-(defn fetch-all-quotes []
-  (vec (fetch-quotes-starting-from 2010 01 01)))
+(defn load-all-quotes []
+  (vec (load-quotes-starting-from 2010 01 01)))
 
-(defn fetch-diff-quotes []
+(defn load-diff-quotes []
   (let [last-date (db/select-last-fx-quotes-date)
         [y m d] (t/split-date last-date)]
     (println "Last quotes: " last-date)
     (db/delete-fx-quotes-by-date last-date)
-    (vec (fetch-quotes-starting-from y m d))))
+    (vec (load-quotes-starting-from y m d))))

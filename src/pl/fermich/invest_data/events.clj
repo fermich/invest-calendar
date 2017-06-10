@@ -1,12 +1,12 @@
-(ns pl.fermich.invest-calendar.events
+(ns pl.fermich.invest-data.events
   (:require [clj-http.client :as client]
             [cheshire.core :as cheshire]
             [propertea.core :as props]
             [net.cgrand.enlive-html :as html]
             [clojure.string :as str]
             [clojure.java.jdbc :as j]
-            [pl.fermich.invest-calendar.time :as t]
-            [pl.fermich.invest-calendar.db :as db]))
+            [pl.fermich.invest-data.time :as t]
+            [pl.fermich.invest-data.db :as db]))
 
 (def conf (props/read-properties "resources/service.properties"))
 
@@ -57,23 +57,24 @@
         events (body (:events-field-name conf))]
     (some->> (parse-html events)
              (map parse-table-row)
-             (db/insert-rows (:db-table conf))
-             (cheshire/generate-string)
-             (println)
-             (Thread/sleep 1000))))
+             )))
 
-(defn- fetch-events-starting-from [y m d]
+(defn- load-events-starting-from [y m d]
   (some->> (t/calculate-dates y m d)
            (map #(fetch-events %))
+           (db/insert-rows (:db-table conf))
+           (cheshire/generate-string)
+           (println)
+           (Thread/sleep 1000)
            (vec)))
 
-(defn fetch-all-events [& args]
-  (fetch-events-starting-from 2010 01 01))
+(defn load-all-events [& args]
+  (load-events-starting-from 2010 01 01))
 
-(defn fetch-diff-events [& args]
+(defn load-diff-events [& args]
   (let [last-event-date (db/select-last-event-date)
         date-splitted (str/split last-event-date #"-")
         [y m d] (map #(Integer/parseInt %) date-splitted)]
     (println "Last event: " last-event-date)
     (db/delete-events-by-date last-event-date)
-    (fetch-events-starting-from y m d)))
+    (load-events-starting-from y m d)))

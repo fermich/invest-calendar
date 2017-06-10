@@ -1,6 +1,6 @@
-# invest-calendar
+# invest-data-loader
 
-A Clojure library to fetch investment data.
+A Clojure library to load and integrate investment data.
 
 ## Usage
 

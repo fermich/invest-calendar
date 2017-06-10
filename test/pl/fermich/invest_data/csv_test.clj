@@ -1,5 +1,5 @@
-(ns pl.fermich.invest-calendar.csv-test
-  (:require [pl.fermich.invest-calendar.csv :as csv])
+(ns pl.fermich.invest-data.csv-test
+  (:require [pl.fermich.invest-data.csv :as csv])
   (:use clojure.test))
 
 (deftest should-mark-columns

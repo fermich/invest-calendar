@@ -1,6 +1,6 @@
-(ns pl.fermich.invest-calendar.time-test
+(ns pl.fermich.invest-data.time-test
   (:require [clj-time.core :as ct]
-            [pl.fermich.invest-calendar.time :as t])
+            [pl.fermich.invest-data.time :as t])
   (:use clojure.test))
 
 (deftest should-return-dates-sequence

@@ -1,8 +1,8 @@
-(ns pl.fermich.invest-calendar.quotes
+(ns pl.fermich.invest-data.quotes
   (:require [clj-http.client :as client]
             [propertea.core :as props]
-            [pl.fermich.invest-calendar.db :as db]
-            [pl.fermich.invest-calendar.csv :as csv]))
+            [pl.fermich.invest-data.db :as db]
+            [pl.fermich.invest-data.csv :as csv]))
 
 (def conf (props/read-properties "resources/service.properties"))
 
@@ -42,7 +42,7 @@
              (db/insert-rows table))
     ))
 
-(defn fetch-daily-quotes [data-cnf date]
+(defn load-daily-quotes [data-cnf date]
   (let [url (str (:stock-url conf) date ".prn")
         format (:format data-cnf)
         table (:table data-cnf)]

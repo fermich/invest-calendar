@@ -1,4 +1,4 @@
-(ns pl.fermich.invest-calendar.time
+(ns pl.fermich.invest-data.time
   (:require [clj-time.periodic :as p]
             [clj-time.core :as t]
             [clj-time.format :as tf]))

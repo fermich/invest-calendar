@@ -1,4 +1,4 @@
-(ns pl.fermich.invest-calendar.db
+(ns pl.fermich.invest-data.db
   (:require [clojure.java.jdbc :as j]
             [propertea.core :as props]
             [clojure.string :as str]))

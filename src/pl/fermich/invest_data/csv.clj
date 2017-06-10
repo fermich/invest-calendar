@@ -1,4 +1,4 @@
-(ns pl.fermich.invest-calendar.csv
+(ns pl.fermich.invest-data.csv
   (:require [clojure.data.csv :as csv]))
 
 (defn parse-data [content]
