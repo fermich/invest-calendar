@@ -17,7 +17,7 @@
            ))
 
 (defn last-month-diff []
-  (vec (load-quotes-starting-from 2017 05 01)))
+  (vec (load-quotes-starting-from 2017 05 26)))
 
 
 (defn load-from-dir [dir]
