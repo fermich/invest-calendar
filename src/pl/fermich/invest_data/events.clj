@@ -62,7 +62,7 @@
 (defn- load-events-starting-from [y m d]
   (some->> (t/calculate-dates y m d)
            (map #(fetch-events %))
-           (db/insert-rows (:db-table conf))
+           (map #(db/insert-rows (:db-table conf) %))
            (cheshire/generate-string)
            (println)
            (Thread/sleep 1000)
