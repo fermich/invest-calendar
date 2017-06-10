@@ -1,4 +1,4 @@
-(ns pl.fermich.invest-data.option
+(ns pl.fermich.invest-data.options
   (:require [clj-http.client :as client]
             [propertea.core :as props]
             [pl.fermich.invest-data.csv :as csv]

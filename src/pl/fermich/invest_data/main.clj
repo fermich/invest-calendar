@@ -1,7 +1,7 @@
 (ns pl.fermich.invest-data.main
   (:require [pl.fermich.invest-data.events :as e]
             [pl.fermich.invest-data.fx :as f]
-            [pl.fermich.invest-data.option :as o]
+            [pl.fermich.invest-data.options :as o]
             ))
 
 (defn -main [& args]
@@ -10,6 +10,6 @@
     ["events" "diff"] (e/load-diff-events)
     ["fx" "all"] (f/load-all-quotes)
     ["fx" "diff"] (f/load-diff-quotes)
-    ["option" "last-month-diff"] (o/last-month-diff)
-    ["option" "load-from-dir"] (o/load-from-dir (nth args 2))
+    ["options" "last-month-diff"] (o/last-month-diff)
+    ["options" "load-from-dir"] (o/load-from-dir (nth args 2))
     ))
