@@ -1,7 +1,7 @@
 (ns pl.fermich.invest-data.fx
   (:require [clj-http.client :as client]
             [propertea.core :as props]
-            [pl.fermich.invest-data.csv :as csv]
+            [pl.fermich.invest-data.format :as f]
             [pl.fermich.invest-data.db :as db]
             [pl.fermich.invest-data.time :as t]))
 
@@ -26,12 +26,12 @@
              (:location)
              (client/get)
              (:body)
-             (csv/parse-data)
+             (f/parse-csv-data)
              )))
 
 (defn- load-quotes-by-date [day pair]
   (some->> (fetch-raw-quotes-by-date day pair)
-           (csv/mark-columns [:ticker :per :dtyymmdd :dthhmmss :open :high :low :close :vol])
+           (f/mark-columns [:ticker :per :dtyymmdd :dthhmmss :open :high :low :close :vol])
            (db/insert-rows (:db-fx-table conf))
            ))
 

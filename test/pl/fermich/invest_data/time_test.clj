@@ -11,4 +11,11 @@
       (is (= ["2010-01-01" "2010-01-02"] ds))
       )))
 
+(deftest should-return-first-day-of-month
+  (testing "should return first day of month"
+    (let [date "20151215"
+          first (t/first-day-of-the-month date)]
+      (is (= [2015 12 01] first))
+      )))
+
 ;(run-all-tests)
