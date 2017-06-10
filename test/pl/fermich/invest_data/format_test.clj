@@ -14,4 +14,4 @@
                                   :open 92.96, :high 92.97, :low 92.95, :close 92.97, :vol 0})
       )))
 
-(run-all-tests)
+;(run-all-tests)

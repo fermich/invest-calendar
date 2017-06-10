@@ -1,4 +1,4 @@
-create table option_quotes (option varchar(20), dtyymmdd varchar(10), open Decimal(10,4), high Decimal(10,4), low Decimal(10,4), close Decimal(10,4), vol int, oi int, primary key (option, dtyymmdd));
+create table option_quotes (ticker varchar(20), dtyymmdd varchar(10), open Decimal(10,4), high Decimal(10,4), low Decimal(10,4), close Decimal(10,4), volatility Decimal(20,4), volume int, primary key (ticker, dtyymmdd));
 
 create table option_code(code varchar(1), type varchar(1), month tinyint);
 

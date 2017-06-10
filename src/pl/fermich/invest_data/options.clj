@@ -7,7 +7,7 @@
 
 (def conf (props/read-properties "resources/service.properties"))
 
-(def data-conf {:format [:option :dtyymmdd :open :high :low :close :vol :volatility]
+(def data-conf {:format {:A :dtyymmdd, :B :ticker, :E :open, :F :high, :G :low, :H :close, :I :volatility, :J :volume}
                 :table (:db-option-table conf)})
 
 (defn- load-quotes-starting-from [y m d]
@@ -15,14 +15,14 @@
            (map #(q/load-xls-quotes-for-date data-conf %))
            ))
 
-(defn current-month-diff []
-  (vec (load-quotes-starting-from 2017 05 26)))
+(defn load-diff-quotes []
+  (let [last-load (db/select-last-option-quotes-date)
+        simple-date (clojure.string/replace last-load #"-" "")
+        [yy mm dd] (t/split-date simple-date)]
+    (println "Options last load:" last-load)
+    (db/delete-option-quotes-by-date last-load)
+    (vec (load-quotes-starting-from  yy mm dd))
+    ))
 
-
-(defn load-from-dir [dir]
-  ;(some->> (file-seq (clojure.java.io/file dir))
-  ;         (filter #(.isFile %))
-  ;         (map #(q/load-quotes-from-csv-file data-conf (.getPath %)))
-  ;         (vec)
-  ;         )
-  )
+(defn load-all-quotes []
+  (vec (load-quotes-starting-from 2010 1 1)))

@@ -16,6 +16,6 @@
     ["stock" "current-month-diff"] (s/current-month-diff)
     ["stock" "load-from-dir"] (s/load-from-dir (nth args 2))
 
-    ["options" "current-month-diff"] (o/current-month-diff)
-    ["options" "load-from-dir"] (o/load-from-dir (nth args 2))
+    ["options" "diff"] (o/load-diff-quotes)
+    ["options" "all"] (o/load-all-quotes)
     ))

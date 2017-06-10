@@ -12,7 +12,7 @@
       )))
 
 (deftest should-return-first-day-of-month
-  (testing "should return first day of month"
+  (testing "should return first day of the month"
     (let [date "20151215"
           first (t/first-day-of-the-month date)]
       (is (= [2015 12 01] first))
