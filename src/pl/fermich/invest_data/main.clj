@@ -3,6 +3,7 @@
             [pl.fermich.invest-data.fx :as f]
             [pl.fermich.invest-data.options :as o]
             [pl.fermich.invest-data.stock :as s]
+            [pl.fermich.invest-data.rates :as r]
             ))
 
 (defn -main [& args]
@@ -18,4 +19,7 @@
 
     ["options" "diff"] (o/load-diff-quotes)
     ["options" "all"] (o/load-all-quotes)
+
+    ["rates" "diff"] (r/load-diff-rates)
+    ["rates" "all"] (r/load-all-rates)
     ))

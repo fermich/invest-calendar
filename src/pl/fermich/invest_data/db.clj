@@ -35,6 +35,9 @@
 (defn select-last-stock-quotes-date []
   (select-last-quotes-date "stock_quotes"))
 
+(defn select-last-rates-date []
+  (select-last-quotes-date "rates"))
+
 
 (defn delete-events-by-date [date]
   (j/query db-conf [(str "DELETE FROM events WHERE timestamp LIKE '" date "%'")]))
@@ -50,3 +53,6 @@
 
 (defn delete-stock-quotes-by-date [date]
   (delete-quotes-by-date "stock_quotes" date))
+
+(defn delete-rates-by-date [date]
+  (delete-quotes-by-date "rates" date))

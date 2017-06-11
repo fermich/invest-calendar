@@ -13,6 +13,9 @@ A Clojure library to load and integrate investment data.
   - lein run options all
   - lein run options diff
 ###
+  - lein run rates all
+  - lein run rates diff
+###
   - lein run stock load-from-dir [dir]
   - lein run stock current-month-diff
 

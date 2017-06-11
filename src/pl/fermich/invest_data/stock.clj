@@ -12,7 +12,7 @@
                 :table (:db-stock-table conf)})
 
 (defn- load-quotes-starting-from [y m d]
-  (some->> (t/calculate-plain-dates y m d)
+  (some->> (t/calculate-plain-days y m d)
            (map #(q/load-csv-quotes-for-date data-conf %))))
 
 (defn current-month-diff []

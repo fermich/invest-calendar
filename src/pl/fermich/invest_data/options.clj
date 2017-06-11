@@ -11,7 +11,7 @@
                 :table (:db-option-table conf)})
 
 (defn- load-quotes-starting-from [y m d]
-  (some->> (t/calculate-dates y m d)
+  (some->> (t/calculate-days y m d)
            (map #(q/load-xls-quotes-for-date data-conf %))
            ))
 

@@ -3,16 +3,32 @@
             [clj-time.core :as tc]
             [clj-time.format :as tf]))
 
-(defn dates-sequence [from to format]
+(defn dates-sequence [from to interval format]
   (let [formatter (tf/formatter format)
-        dates (p/periodic-seq from to (tc/hours 24))]
+        dates (p/periodic-seq from to interval)]
     (map #(tf/unparse formatter %) dates)))
 
-(defn calculate-dates [y m d]
-  (dates-sequence (tc/date-time y m d) (tc/now) "yyyy-MM-dd"))
 
-(defn calculate-plain-dates [y m d]
-  (dates-sequence (tc/date-time y m d) (tc/now) "yyyyMMdd"))
+(defn days-sequence [from to format]
+  (dates-sequence from to (tc/hours 24) format))
+
+(defn calculate-days [y m d]
+  (days-sequence (tc/date-time y m d) (tc/now) "yyyy-MM-dd"))
+
+(defn calculate-plain-days [y m d]
+  (days-sequence (tc/date-time y m d) (tc/now) "yyyyMMdd"))
+
+
+(defn months-sequence [from to format]
+  (dates-sequence from to (tc/months 1) format))
+
+(defn calculate-months [y m d]
+  (months-sequence (tc/date-time y m d) (tc/now) "yyyy-MM-dd"))
+
+(defn current-formatted-date []
+  (let [formatter (tf/formatter "yyyy-MM-dd")]
+    (tf/unparse formatter (tc/now))
+    ))
 
 (defn split-date [date]
   (let [yy (subs date 0 4)
@@ -21,6 +37,11 @@
         date-splitted [yy mm dd]]
     (map #(Integer/parseInt %) date-splitted)))
 
+
 (defn first-day-of-the-month [date]
-  (let [splitted (split-date date)]
-    (concat (take 2 splitted) [01])))
+  (let [plain-date (clojure.string/replace date "-" "")
+        formatter (tf/formatter "yyyy-MM-dd")
+        [yy mm dd] (split-date plain-date)
+        first (tc/date-time yy mm 01)]
+    (tf/unparse formatter first)
+    ))

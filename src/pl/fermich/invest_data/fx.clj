@@ -36,7 +36,7 @@
            ))
 
 (defn- load-quotes-starting-from [y m d]
-  (some->> (t/calculate-dates y m d)
+  (some->> (t/calculate-days y m d)
            (map #(load-quotes-by-date % "USDJPY"))))
 
 (defn load-all-quotes []

@@ -3,19 +3,27 @@
             [pl.fermich.invest-data.time :as t])
   (:use clojure.test))
 
-(deftest should-return-dates-sequence
+(deftest should-return-days-sequence
   (testing "should return dates day by day"
     (let [from (ct/date-time 2010 01 01)
           to (ct/date-time 2010 01 03)
-          ds (t/dates-sequence from to "yyyy-MM-dd")]
+          ds (t/days-sequence from to "yyyy-MM-dd")]
       (is (= ["2010-01-01" "2010-01-02"] ds))
+      )))
+
+(deftest should-return-months-sequence
+  (testing "should return dates month by month"
+    (let [from (ct/date-time 2010 01 01)
+          to (ct/date-time 2010 03 01)
+          ds (t/months-sequence from to "yyyy-MM-dd")]
+      (is (= ["2010-01-01" "2010-02-01"] ds))
       )))
 
 (deftest should-return-first-day-of-month
   (testing "should return first day of the month"
-    (let [date "20151215"
+    (let [date "2015-12-15"
           first (t/first-day-of-the-month date)]
-      (is (= [2015 12 01] first))
+      (is (= "2015-12-01" first))
       )))
 
 ;(run-all-tests)
