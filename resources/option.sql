@@ -1,4 +1,13 @@
-create table option_quotes (ticker varchar(20), dtyymmdd varchar(10), open Decimal(10,4), high Decimal(10,4), low Decimal(10,4), close Decimal(10,4), volatility Decimal(20,4), volume int, primary key (ticker, dtyymmdd));
+create table option_quotes (
+    ticker varchar(20),
+    dtyymmdd varchar(10),
+    open Decimal(10,4),
+    high Decimal(10,4),
+    low Decimal(10,4),
+    close Decimal(10,4),
+    volatility Decimal(20,4),
+    volume int,
+    primary key (ticker, dtyymmdd));
 
 create table option_code(code varchar(1), type varchar(1), month tinyint);
 
@@ -26,3 +35,12 @@ insert into option_code(code, type, month) values ('U', 'P', 9);
 insert into option_code(code, type, month) values ('V', 'P', 10);
 insert into option_code(code, type, month) values ('W', 'P', 11);
 insert into option_code(code, type, month) values ('X', 'P', 12);
+
+create view v_option_quotes as
+    select oc.type,
+           datediff(concat('20', substring(oq.ticker, 6, 2), '-', oc.month, '-21'), oq.dtyymmdd) / 365 ttm,
+           substring(oq.ticker, 8) strike,
+           oq.*
+    from option_quotes oq, option_code oc
+    where oq.dtyymmdd > '2014-03-18'
+      and oc.code = substring(oq.ticker, 5, 1);
