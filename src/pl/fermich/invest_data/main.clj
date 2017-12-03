@@ -4,6 +4,7 @@
             [pl.fermich.invest-data.options :as o]
             [pl.fermich.invest-data.stock :as s]
             [pl.fermich.invest-data.rates :as r]
+            [pl.fermich.invest-data.gfin :as g]
             ))
 
 (defn -main [& args]
@@ -22,4 +23,7 @@
 
     ["rates" "diff"] (r/load-diff-rates)
     ["rates" "all"] (r/load-all-rates)
+
+    ["gfin" "companies"] (g/list-companies "WSE")
+    ["gfin" "data"] (g/company-data ["808675695144753" "993796566759120"])
     ))
