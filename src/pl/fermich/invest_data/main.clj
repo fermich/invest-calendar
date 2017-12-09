@@ -25,5 +25,5 @@
     ["rates" "all"] (r/load-all-rates)
 
     ["gfin" "companies"] (g/list-companies "WSE")
-    ["gfin" "data"] (g/company-data ["808675695144753" "993796566759120"])
+    ["gfin" "data"] (-> (g/list-company-ids "WSE") (g/company-data))
     ))

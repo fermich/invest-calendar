@@ -53,7 +53,7 @@
                                :accept-language "pl-PL,pl;q=0.8,en-US;q=0.6,en;q=0.4,cs;q=0.2"
                                }
                      :throw-exceptions true
-                     :follow-redirects true
+                     :follow-redirects false
                      })
 
 (defn- call-gfin [url]
@@ -62,13 +62,22 @@
           (cheshire/parse-string true)
           ))
 
-(defn list-companies [exchange]
+(defn- get-companies [exchange]
   (let [url (-> (:gfin-exch-url conf) (format exchange))]
     (some->> (call-gfin url)
              (:searchresults)
-             (map #(select-keys % [:title :ticker :id]))
-             (prn)
              )))
+
+(defn list-companies [exchange]
+  (some->> (get-companies exchange)
+           (map #(select-keys % [:title :ticker :id]))
+           (prn)
+           ))
+
+(defn list-company-ids [exchange]
+  (some->> (get-companies exchange)
+           (map #(get % :id))
+           ))
 
 (defn company-data [company-ids]
   (let [csc (string/join "," company-ids)
@@ -79,7 +88,7 @@
         rows (-> data :company :related :rows)
         ]
     (some->> (map #(:values %) rows)
-             (f/mark-columns titles)
-             (prn)
+             (f/mark-columns cols)
+             (cheshire/generate-string)
              )
     ))
