@@ -16,7 +16,9 @@
                            :accept-encoding "gzip, deflate, br"
                            :content-type "application/x-www-form-urlencoded; charset=UTF-8"
                            :user-agent (:user-agent conf)
-                           }}]
+                           }
+                 :follow-redirects true
+                 }]
     (client/post (:rate-url conf) options)))
 
 (defn- parse-html [body]

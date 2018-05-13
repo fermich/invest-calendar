@@ -15,6 +15,14 @@
   (j/insert-multi! db-conf table rows)
   rows)
 
+(defn select-commodity-by-sml [sml]
+  (some->> (j/query db-conf [(str "SELECT curr, sml, header FROM commodity_codes where sml=" sml)])
+           (first)
+           ))
+
+(defn all-commodities-sml []
+  (some->> (j/query db-conf ["SELECT distinct sml FROM commodity_codes"])
+           ))
 
 (defn select-last-event-date []
   (let [timestamp (j/query db-conf ["SELECT timestamp FROM events ORDER BY timestamp DESC limit 1"])

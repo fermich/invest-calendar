@@ -5,6 +5,7 @@
             [pl.fermich.invest-data.stock :as s]
             [pl.fermich.invest-data.rates :as r]
             [pl.fermich.invest-data.gfin :as g]
+            [pl.fermich.invest-data.historical :as h]
             ))
 
 (defn -main [& args]
@@ -14,6 +15,12 @@
 
     ["fx" "all"] (f/load-all-quotes)
     ["fx" "diff"] (f/load-diff-quotes)
+
+    ["indices" "one"] (h/fetch-historical-data "300004" "2010-04-01" "2018-04-08")
+    ["indices" "all"] (h/fetch-all-historical-data "2010-04-01" "2018-04-08")
+
+    ;["commodities" all startDate endDate]
+    ;["commodities" one id fromDate toDate]
 
     ["stock" "current-month-diff"] (s/current-month-diff)
     ["stock" "load-from-dir"] (s/load-from-dir (nth args 2))

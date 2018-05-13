@@ -37,6 +37,13 @@
         date-splitted [yy mm dd]]
     (map #(Integer/parseInt %) date-splitted)))
 
+(defn to-american-date [date]
+  (let [plain-date (clojure.string/replace date "-" "")
+        formatter (tf/formatter "MM/dd/yyyy")
+        [yy mm dd] (split-date plain-date)
+        dt (tc/date-time yy mm dd)]
+    (tf/unparse formatter dt)
+    ))
 
 (defn first-day-of-the-month [date]
   (let [plain-date (clojure.string/replace date "-" "")

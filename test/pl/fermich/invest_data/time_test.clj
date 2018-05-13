@@ -26,4 +26,11 @@
       (is (= "2015-12-01" first))
       )))
 
+(deftest should-return-american-date
+  (testing "should format to american date"
+    (let [date "2015-12-15"
+          american (t/to-american-date date)]
+      (is (= "12/15/2015" american))
+      )))
+
 ;(run-all-tests)
