@@ -16,11 +16,11 @@
     ["fx" "all"] (f/load-all-quotes)
     ["fx" "diff"] (f/load-diff-quotes)
 
-    ["indices" "one"] (h/fetch-historical-data "300004" "2010-04-01" "2018-04-08")
-    ["indices" "all"] (h/fetch-all-historical-data "2010-04-01" "2018-04-08")
+    ["commodities" "one"] (h/fetch-commodity-data "300004" "2010-04-01" "2018-04-08")
+    ["commodities" "all"] (h/fetch-all-commodities-data "2010-04-01" "2018-04-08")
 
-    ;["commodities" all startDate endDate]
-    ;["commodities" one id fromDate toDate]
+    ["indices" "one"] (h/fetch-index-data "666" "2010-04-01" "2018-04-08")
+    ["indices" "all"] (h/fetch-all-indices-data "2010-04-01" "2018-04-08")
 
     ["stock" "current-month-diff"] (s/current-month-diff)
     ["stock" "load-from-dir"] (s/load-from-dir (nth args 2))

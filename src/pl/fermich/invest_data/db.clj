@@ -24,6 +24,10 @@
   (some->> (j/query db-conf ["SELECT distinct sml FROM commodity_codes"])
            ))
 
+(defn all-indices-sml []
+  (some->> (j/query db-conf ["SELECT distinct sml FROM indices_codes"])
+           ))
+
 (defn select-last-event-date []
   (let [timestamp (j/query db-conf ["SELECT timestamp FROM events ORDER BY timestamp DESC limit 1"])
         [day hour] (some-> timestamp (first) (:timestamp) (str/split #" "))]

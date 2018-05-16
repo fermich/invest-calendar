@@ -73,12 +73,28 @@
              (rest)
              (drop-last)
              (map parse-table-row)
-             (db/insert-rows (:historical-table conf))
              )))
 
-(defn fetch-all-historical-data [start end]
+
+(defn fetch-commodity-data [sml start end]
+  (some->> (fetch-historical-data sml start end)
+           (db/insert-rows (:commodities-table conf))
+           ))
+
+(defn fetch-all-commodities-data [start end]
   (let [smls (db/all-commodities-sml)
-        data (map #(fetch-historical-data (:sml %) start end) smls)
-        ]
+        data (map #(fetch-commodity-data (:sml %) start end) smls)]
+    (prn data)
+    ))
+
+
+(defn fetch-index-data [sml start end]
+  (some->> (fetch-historical-data sml start end)
+           (db/insert-rows (:commodities-table conf))
+           ))
+
+(defn fetch-all-indices-data [start end]
+  (let [smls (db/all-indices-sml)
+        data (map #(fetch-index-data (:sml %) start end) smls)]
     (prn data)
     ))
