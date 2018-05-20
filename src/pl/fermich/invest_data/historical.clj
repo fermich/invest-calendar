@@ -44,10 +44,11 @@
   (let [trimmed (some-> s (str/replace #"\u00A0" " ") (str/trim))]
     (if (str/blank? trimmed) nil trimmed)))
 
-(defn- parse-table-row [tr]
+(defn- parse-table-row [sml tr]
   (let [tr-content (tr :content)
         cells (filter map? tr-content)
         cell {
+              :name sml
               :timestamp (some-> cells (nth 0) (:attrs) (:data-real-value) (drop-whitespaces))
               :price (some-> cells (nth 1) (:attrs) (:data-real-value) (drop-whitespaces))
               :open (some-> cells (nth 2) (:attrs) (:data-real-value) (drop-whitespaces))
@@ -60,24 +61,21 @@
     cell
     ))
 
-(defn- sml-params [id]
-  (db/select-commodity-by-sml id)
-  )
-
-(defn fetch-historical-data [id start end]
-  (let [params (assoc (sml-params id) :start (t/to-american-date start) :end (t/to-american-date end))
+(defn fetch-historical-data [start end sml-params]
+  (let [params (assoc sml-params :start (t/to-american-date start) :end (t/to-american-date end))
         req (request-body params)
         resp (get-history-data-by-date req)
         body (resp :body)]
     (some->> (parse-html body)
              (rest)
              (drop-last)
-             (map parse-table-row)
+             (map #(parse-table-row (:name params) %))
              )))
 
 
 (defn fetch-commodity-data [sml start end]
-  (some->> (fetch-historical-data sml start end)
+  (some->> (db/select-commodity-by-sml sml)
+           (fetch-historical-data start end)
            (db/insert-rows (:commodities-table conf))
            ))
 
@@ -88,9 +86,10 @@
     ))
 
 
-(defn fetch-index-data [sml start end]
-  (some->> (fetch-historical-data sml start end)
-           (db/insert-rows (:commodities-table conf))
+(defn fetch-index-data [name start end]
+  (some->> (db/select-index-by-name name)
+           (fetch-historical-data start end)
+           (db/insert-rows (:indices-table conf))
            ))
 
 (defn fetch-all-indices-data [start end]

@@ -24,6 +24,11 @@
   (some->> (j/query db-conf ["SELECT distinct sml FROM commodity_codes"])
            ))
 
+(defn select-index-by-name [name]
+  (some->> (j/query db-conf [(str "SELECT curr, sml, name, header FROM indices_codes where name='" name "'")])
+           (first)
+           ))
+
 (defn all-indices-sml []
   (some->> (j/query db-conf ["SELECT distinct sml FROM indices_codes"])
            ))

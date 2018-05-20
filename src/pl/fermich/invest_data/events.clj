@@ -39,6 +39,7 @@
         cells (filter map? tr-content)]
     {
      :id (some-> tr (:attrs) (:event_attr_id) (drop-whitespaces))
+     :dtyymmdd (some-> tr (:attrs) (:event_timestamp) (drop-whitespaces) (subs 0 10))
      :timestamp (some-> tr (:attrs) (:event_timestamp) (drop-whitespaces))
      :country (some-> cells (nth 1) (cell-content) (:attrs) (:title) (drop-whitespaces))
      :currency (some-> cells (nth 1) (:content) (last) (drop-whitespaces))
