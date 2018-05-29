@@ -29,11 +29,38 @@ insert into features (id, name, index_name, event_id, event_name, country) value
 
 
 create table features_binary_input (
-    dtyymmdd varchar(20),
+    dtyymm varchar(20),
     feature_id bigint,
     binary_value int
 );
 
-insert into features_binary_input (dtyymmdd, feature_id, binary_value) select e.dtyymmdd, f.id, e.chg from f_events e, features f where e.event_id = f.event_id and f.country='Poland';
+insert into features_binary_input (dtyymm, feature_id, binary_value) select distinct  e.dtyymm, f.id, e.chg from f_events e, features f where e.event_id = f.event_id and f.country='Poland';
+delete from features_binary_input where dtyymm < '2012-07';
+delete from features_binary_input where feature_id = 3;
+delete from features_binary_input where feature_id = 4;
+delete from features_binary_input where feature_id = 9;
 
-insert into features_binary_input (dtyymmdd, feature_id, binary_value) select e.dtyymmdd, f.id, e.chg from f_events e, features f where e.event_id = f.event_id and f.country='Germany';
+
+insert into features_binary_input (dtyymm, feature_id, binary_value) select distinct e.dtyymm, f.id, e.chg from f_events e, features f where e.event_id = f.event_id and f.country='Germany';
+
+create view features_pivot as
+select f1.dtyymm,
+    f1.binary_value f1,
+    f2.binary_value f2,
+    f5.binary_value f5,
+    f6.binary_value f6,
+    f7.binary_value f7,
+    f8.binary_value f8
+from
+    (select * from features_binary_input where feature_id = 1) f1,
+    (select * from features_binary_input where feature_id = 2) f2,
+    (select * from features_binary_input where feature_id = 5) f5,
+    (select * from features_binary_input where feature_id = 6) f6,
+    (select * from features_binary_input where feature_id = 7) f7,
+    (select * from features_binary_input where feature_id = 8) f8
+where
+    f1.dtyymm = f2.dtyymm and
+    f1.dtyymm = f5.dtyymm and
+    f1.dtyymm = f6.dtyymm and
+    f1.dtyymm = f7.dtyymm and
+    f1.dtyymm = f8.dtyymm;

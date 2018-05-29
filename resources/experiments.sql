@@ -11,3 +11,5 @@ insert into bin_experiments
       from features_binary_input fbi, d_indices i
      where fbi.dtyymmdd = i.dtyymmdd
        and i.name = 'WIG20';
+
+select fp.*, di.bin_chg from features_pivot fp, d_indices di where fp.dtyymm = di.bmyymm order by dtyymm;

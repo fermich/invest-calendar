@@ -10,6 +10,7 @@ create table indices(
 
 create view d_indices as
     select left(from_unixtime(timestamp),10) as dtyymmdd,
+           left(from_unixtime(timestamp) - INTERVAL 1 MONTH, 7) as bmyymm,
            i.*,
            (case when (chg like '-%') THEN 0 ELSE 1 END) bin_chg
       from indices i;

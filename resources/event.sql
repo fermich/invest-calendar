@@ -22,9 +22,10 @@ create view f_events as
     select e.*,
            case when (e.actual - e.previous <= 0) THEN 0 ELSE 1 END as chg
       from (
-        select dtyymmdd,
-           id as event_id,
-           cast(replace(actual, ',','.') as decimal(10,3)) actual,
-           cast(replace(previous, ',','.') as decimal(10,3)) previous
-          from events
-        ) e;
+        select g.dtyymm, g.event_id, sum(g.actual) actual, sum(g.previous) previous from (
+          select left(dtyymmdd, 7) dtyymm,
+            id as event_id,
+            cast(replace(actual, ',','.') as decimal(10,3)) actual,
+            cast(replace(previous, ',','.') as decimal(10,3)) previous
+           from events
+        ) g group by g.dtyymm, g.event_id) e;
