@@ -1,6 +1,7 @@
 (ns pl.fermich.invest-data.main
   (:require [pl.fermich.invest-data.events :as e]
             [pl.fermich.invest-data.fx :as f]
+            [pl.fermich.invest-data.report :as report]
             [pl.fermich.invest-data.options :as o]
             [pl.fermich.invest-data.stock :as s]
             [pl.fermich.invest-data.rates :as r]
@@ -15,6 +16,8 @@
 
     ["fx" "all"] (f/load-all-quotes)
     ["fx" "diff"] (f/load-diff-quotes)
+
+    ["report" "search"] (report/search-report-by-date-sym "04-11-2020" "pkobp")
 
     ["commodities" "one"] (h/fetch-commodity-data "300004" "2010-04-01" "2018-04-08")
     ["commodities" "all"] (h/fetch-all-commodities-data "2010-04-01" "2018-04-08")

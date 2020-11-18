@@ -9,7 +9,9 @@
                  [org.mariadb.jdbc/mariadb-java-client "1.5.9"]
                  [org.clojure/java.jdbc "0.6.1"]
                  [org.clojure/data.csv "0.1.3"]
-                 [dk.ative/docjure "1.11.0"]]
+                 [org.craigandera/dynne "0.4.1"]
+                 [dk.ative/docjure "1.11.0"]
+                 ]
   :resource-paths ["resources"]
   :main pl.fermich.invest-data.main
   )
