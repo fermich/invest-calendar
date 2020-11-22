@@ -6,7 +6,7 @@
                  [propertea "1.2.3"]
                  [clj-time "0.13.0"]
                  [enlive "1.1.6"]
-                 [org.mariadb.jdbc/mariadb-java-client "1.5.9"]
+                 [mysql/mysql-connector-java "8.0.22"]
                  [org.clojure/java.jdbc "0.6.1"]
                  [org.clojure/data.csv "0.1.3"]
                  [org.craigandera/dynne "0.4.1"]

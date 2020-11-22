@@ -7,6 +7,7 @@
             [pl.fermich.invest-data.rates :as r]
             [pl.fermich.invest-data.gfin :as g]
             [pl.fermich.invest-data.historical :as h]
+            [pl.fermich.invest-data.nol :as n]
             ))
 
 (defn -main [& args]
@@ -18,6 +19,8 @@
     ["fx" "diff"] (f/load-diff-quotes)
 
     ["report" "search"] (report/search-report-by-date-sym "04-11-2020" "pkobp")
+
+    ["nol" "session"] (n/batch-load-from-file "market-data.txt")
 
     ["commodities" "one"] (h/fetch-commodity-data "300004" "2010-04-01" "2018-04-08")
     ["commodities" "all"] (h/fetch-all-commodities-data "2010-04-01" "2018-04-08")
