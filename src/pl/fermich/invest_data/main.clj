@@ -6,12 +6,15 @@
             [pl.fermich.invest-data.stock :as s]
             [pl.fermich.invest-data.rates :as r]
             [pl.fermich.invest-data.gfin :as g]
+            [pl.fermich.invest-data.gpx :as gpx]
+            [pl.fermich.invest-data.db :as db]
             [pl.fermich.invest-data.historical :as h]
-            [pl.fermich.invest-data.nol :as n]
             ))
 
 (defn -main [& args]
   (case (take 2 args)
+    ["gpx"  "rewrite"] (gpx/update-gpx (nth args 2) (nth args 3))
+
     ["events" "all"] (e/load-all-events)
     ["events" "diff"] (e/load-diff-events)
 
@@ -19,8 +22,6 @@
     ["fx" "diff"] (f/load-diff-quotes)
 
     ["report" "search"] (report/search-report-by-date-sym "04-11-2020" "pkobp")
-
-    ["nol" "session"] (n/batch-load-from-file "market-data.txt")
 
     ["commodities" "one"] (h/fetch-commodity-data "300004" "2010-04-01" "2018-04-08")
     ["commodities" "all"] (h/fetch-all-commodities-data "2010-04-01" "2018-04-08")

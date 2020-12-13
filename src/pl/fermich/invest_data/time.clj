@@ -52,3 +52,6 @@
         first (tc/date-time yy mm 01)]
     (tf/unparse formatter first)
     ))
+
+(defn seconds-from-now [ss]
+  (-> ss tc/seconds tc/from-now))
