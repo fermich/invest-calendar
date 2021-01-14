@@ -14,9 +14,12 @@
   (let [zipper (-> in-file io/file xml/parse zip/xml-zip)
         trkseg (dzip/xml1-> zipper :gpx :trk :trkseg)
         updated (zip-walk (fn [loc sec]
-                            (if (= :trkpt (-> loc zip/node :tag))
-                              (zip/append-child loc {:tag :time :content [(-> sec t/seconds-from-now str)]})
-                              loc))
+                            (if (= :name (-> loc zip/node :tag))
+                              (zip/remove loc)
+                              (if (= :trkpt (-> loc zip/node :tag))
+                                (zip/append-child loc {:tag :time :content [(-> sec t/seconds-from-now str)]})
+                                loc)))
+
                           trkseg
                           10)]
     (->> updated xml/emit with-out-str (spit out-file))
